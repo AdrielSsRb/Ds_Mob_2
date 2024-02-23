@@ -1,197 +1,114 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Home());
+  runApp(MyApp());
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Fruit {
+  String name;
+  double price;
+  int quantity;
+
+  Fruit({required this.name, required this.price, this.quantity = 0});
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // Lista de frutas
+  final List<Fruit> fruits = [
+    Fruit(name: 'Maçã', price: 2.0),
+    Fruit(name: 'Banana', price: 1.5),
+    Fruit(name: 'Laranja', price: 1.0),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("SVAR - Hospedagens"),
+          title: Text('Lista de Frutas'),
         ),
-        body: ListView(
+        body: Column(
           children: [
-            Componente("Angra dos Reis", 384, 70, "imagens/angra.jpg"),
+            Expanded(
+              child: ListView.builder(
+                itemCount: fruits.length,
+                itemBuilder: (context, index) {
+                  // Exibe cada fruta como um ListTile na ListView
+                  return ListTile(
+                    title: Text(fruits[index].name),
+                    subtitle: Text('Preço: \$${fruits[index].price.toStringAsFixed(2)}'),
+                    // Botão para aumentar a quantidade de frutas
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Quantidade: ${fruits[index].quantity}'),
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            // Atualiza a quantidade e reconstrói o widget
+                            setState(() {
+                              increaseQuantity(index);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            // Texto para exibir o valor total
+            Text(
+              'Valor Total: \$${calculateTotal().toStringAsFixed(2)}',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            // Botão para calcular o valor total e exibir em um AlertDialog
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    double total = calculateTotal();
+                    // Caixa de diálogo para exibir o valor total
+                    return AlertDialog(
+                      title: Text('Valor Total'),
+                      content: Text('O valor total a ser pago é: \$${total.toStringAsFixed(2)}'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Fechar'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text('Calcular Valor Total'),
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-class Componente extends StatefulWidget {
-  final String nome_c;
-  final String img;
-  int vc; // final antes do tipo da variavel
-  // protege contra alteração acidental
-  int pess;
-  Componente(this.nome_c, this.vc, this.pess, this.img, {super.key});
-
-  @override
-  State<Componente> createState() => _ComponenteState();
-}
-
-class _ComponenteState extends State<Componente> {
-  //Aqui é necessario refazer a parte da logica, no caso mudar a logica, mudar nomes das variaveis
-  String? mensagem;
-  int qtdePessoas = 0;
-  int qtndDias = 0;
-  int valor_total = 0;
-
-  void _printmsg() {
-    setState(() {
-      mensagem = "Mobile";
-    });
+  // Método para aumentar a quantidade de uma fruta
+  void increaseQuantity(int index) {
+    fruits[index].quantity++;
   }
 
-  void _incqtdeP() {
-    setState(() {
-      qtdePessoas++;
-    });
-  }
-
-  void _incqtdeD() {
-    setState(() {
-      qtndDias++;
-    });
-  }
-
-  void _calctotal() {
-    if (qtndDias > 0) {
-      setState(() {
-        valor_total = (qtdePessoas * widget.pess) + (qtndDias * widget.vc);
-      });
-    } else {
-      // Se nenhum dia for selecionado, define o valor_total como 0
-      setState(() {
-        valor_total = 0;
-      });
+  // Método para calcular o valor total
+  double calculateTotal() {
+    double total = 0;
+    for (var fruit in fruits) {
+      total += fruit.price * fruit.quantity;
     }
-  }
-
-  void _limpar() {
-    setState(() {
-      qtdePessoas = 0;
-      qtndDias = 0;
-      valor_total = 0;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-
-          children: [
-            Container(
-              color: Colors.blue,
-              width: 340,
-              height: 265,
-              child: Image.asset(
-                widget.img,
-                fit: BoxFit.fill,
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "${widget.nome_c}",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,), 
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              width: 340,
-              height: 50,
-              child: Text(
-                "R\$ ${widget.vc}/Dia - R\$ ${widget.pess} /Pessoa",
-                style: TextStyle(fontSize: 26, color: Colors.red), 
-                textAlign: TextAlign.center,
-              ),
-            ),         
-            Container(
-              color: Colors.white,
-              width: 320,
-              height: 72,
-              child: Text(
-                "1 Quarto, banheiro, televisão, WiFi, ar-condicionado",
-                style: TextStyle(fontSize: 22),
-                textAlign: TextAlign.justify,
-              ),
-            ),          
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    color: Colors.white,
-                    width: 300,
-                    height: 36,
-                    child: Text(
-                      "Quantidade de pessoas: $qtdePessoas",
-                      style: TextStyle(fontSize: 26),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                ElevatedButton(onPressed: _incqtdeP, child: Icon(Icons.add)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    color: Colors.white,
-                    width: 300,
-                    height: 36,
-                    child: Text(
-                      "Quantidade de dias: $qtndDias",
-                      style: TextStyle(fontSize: 26),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                ElevatedButton(onPressed: _incqtdeD, child: Icon(Icons.add)),
-              ],
-             ),
-
-            if (qtndDias > 0) // Exibe o valor total apenas se pelo menos uma diária for selecionada
-              Container(
-                color: Colors.white,
-                width: 300,
-                height: 45,
-                child: Text(
-                  "Valor total R\$: ${valor_total}", 
-                  style: TextStyle(fontSize: 30),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(onPressed: _calctotal, child: Text("Calcular")),
-                ElevatedButton(onPressed: _limpar, child: Text("Limpar")),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+    return total;
   }
 }
