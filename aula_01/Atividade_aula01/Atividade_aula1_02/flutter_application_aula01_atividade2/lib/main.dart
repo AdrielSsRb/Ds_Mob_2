@@ -4,14 +4,17 @@ void main() {
   runApp(MyApp());
 }
 
+// Classe que representa uma fruta
 class Fruit {
   String name;
   double price;
   int quantity;
 
+  // Construtor da classe Fruit
   Fruit({required this.name, required this.price, this.quantity = 0});
 }
 
+// Classe principal do aplicativo, um StatefulWidget
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -36,17 +39,33 @@ class _MyAppState extends State<MyApp> {
           children: [
             Expanded(
               child: ListView.builder(
+                // Número de itens na lista igual ao tamanho da lista de frutas
                 itemCount: fruits.length,
+                // Função que constrói cada item da lista
                 itemBuilder: (context, index) {
                   // Exibe cada fruta como um ListTile na ListView
                   return ListTile(
+                    // Título do ListTile é o nome da fruta
                     title: Text(fruits[index].name),
+                    // Subtítulo do ListTile exibe o preço da fruta
                     subtitle: Text('Preço: \$${fruits[index].price.toStringAsFixed(2)}'),
-                    // Botão para aumentar a quantidade de frutas
+                    // Botões para aumentar e diminuir a quantidade de frutas
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        // IconButton para diminuir a quantidade
+                        IconButton(
+                          icon: Icon(Icons.remove),
+                          onPressed: () {
+                            // Atualiza a quantidade e reconstrói o widget
+                            setState(() {
+                              decreaseQuantity(index);
+                            });
+                          },
+                        ),
+                        // Exibe a quantidade atual da fruta
                         Text('Quantidade: ${fruits[index].quantity}'),
+                        // IconButton para aumentar a quantidade
                         IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
@@ -64,33 +83,8 @@ class _MyAppState extends State<MyApp> {
             ),
             // Texto para exibir o valor total
             Text(
-              'Valor Total: \$${calculateTotal().toStringAsFixed(2)}',
+              'Valor Total: R\$${calculateTotal().toStringAsFixed(2)}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            // Botão para calcular o valor total e exibir em um AlertDialog
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    double total = calculateTotal();
-                    // Caixa de diálogo para exibir o valor total
-                    return AlertDialog(
-                      title: Text('Valor Total'),
-                      content: Text('O valor total a ser pago é: \$${total.toStringAsFixed(2)}'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Fechar'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Text('Calcular Valor Total'),
             ),
           ],
         ),
@@ -103,9 +97,18 @@ class _MyAppState extends State<MyApp> {
     fruits[index].quantity++;
   }
 
+  // Método para diminuir a quantidade de uma fruta
+  void decreaseQuantity(int index) {
+    // Verifica se a quantidade é maior que zero antes de decrementar
+    if (fruits[index].quantity > 0) {
+      fruits[index].quantity--;
+    }
+  }
+
   // Método para calcular o valor total
   double calculateTotal() {
     double total = 0;
+    // Itera sobre todas as frutas, calculando o preço total
     for (var fruit in fruits) {
       total += fruit.price * fruit.quantity;
     }
