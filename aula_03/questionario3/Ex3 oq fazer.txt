@@ -1,0 +1,1 @@
+Lembrese de criar as telas na pasta 'lib' dentro do projeto flutter
