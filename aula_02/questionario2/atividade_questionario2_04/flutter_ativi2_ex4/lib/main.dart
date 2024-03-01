@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,8 +29,10 @@ class _NotasPageState extends State<NotasPage> {
   final TextEditingController nota1Controller = TextEditingController();
   final TextEditingController nota2Controller = TextEditingController();
   final TextEditingController nota3Controller = TextEditingController();
+  
 
   double media = 0;
+  String aprovacao = '';
 
   void calcularMedia() {
     double nota1 = double.tryParse(nota1Controller.text) ?? 0;
@@ -36,7 +40,12 @@ class _NotasPageState extends State<NotasPage> {
     double nota3 = double.tryParse(nota3Controller.text) ?? 0;
 
     double mediaCalculada = (nota1 + nota2 + nota3) / 3;
-
+    
+    if (mediaCalculada == 7 || mediaCalculada >= 7) {
+      aprovacao = 'Aprovado';
+    } else {
+      aprovacao = 'Reprovado';
+    }
     setState(() {
       media = mediaCalculada;
     });
@@ -90,6 +99,7 @@ class _NotasPageState extends State<NotasPage> {
               'Média da Disciplina: ${media.toStringAsFixed(2)}',
               style: TextStyle(fontSize: 18),
             ),
+            Text('resultado: ${aprovacao}'),
           ],
         ),
       ),
