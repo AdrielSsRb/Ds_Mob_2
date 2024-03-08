@@ -1,4 +1,10 @@
+import 'package:questionario3_exercicio1/Telaprimaria.dart';
+import 'package:questionario3_exercicio1/Telasecundaria.dart';
+import 'package:questionario3_exercicio1/Telaterciaria.dart';
+import 'package:questionario3_exercicio1/Telaquartenaria.dart';
+
 import 'package:flutter/material.dart';
+
 void main() {
   runApp(MaterialApp(
     home: Telaprincipal(),
@@ -18,16 +24,16 @@ class TelaprincipalState extends State<Telaprincipal> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("App multiplas telas"),
+          title: Text("App Frases em Telas"),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Tela Principal",
-                style: TextStyle(fontSize: 50, fontFamily: 'ProtesRiot' ),)
+                Text("Tela Principal 😎 ",
+                style: TextStyle(fontSize: 40, fontFamily: 'ProtesRiot' ),)
               ],
             ),
             Row(
@@ -35,18 +41,44 @@ class TelaprincipalState extends State<Telaprincipal> {
               children: [
                 Container(
                   color: Colors.blue, 
-                  width: 150, 
-                  height: 150,),
-
+                  width:300, 
+                  height: 15,),
               ],
             ),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+               ElevatedButton(onPressed: (){
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Telaprimaria())); 
+              }, child: Text("Frase 1")),
+            ],
+          ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [               
                 ElevatedButton(onPressed: (){
             Navigator.push(context,
               MaterialPageRoute(builder: (context) => Telasecundaria()));                  
-                }, child: Text("Tela2")),],
+                }, child: Text("Frase 2")),],
+            ),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Telaterciaria())); 
+                }, child: Text("Frase 3")),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Telaquartenaria())); 
+                  }, child: Text("Frase 4")),
+                ],
             )
           ],
         ),
