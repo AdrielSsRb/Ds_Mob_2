@@ -1,7 +1,4 @@
-import 'package:questionario3_exercicio3/Telasecundaria.dart';
-import 'package:questionario3_exercicio3/Telaterciaria.dart';
 import 'package:questionario3_exercicio3/main.dart';
-
 import 'package:flutter/material.dart';
 
 class Telaprimaria extends StatefulWidget {
@@ -16,54 +13,50 @@ class TelaprimariaState extends State<Telaprimaria> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Frase 1"),
+        title: Text("BASQUETE"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              Text('1 - primeira frase',
-              style: TextStyle(fontSize: 20, fontFamily: 'ProtesRiot')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Estatísticas do Michael Jordan',
+                    style: TextStyle(fontSize: 20, fontFamily: 'ProtesRiot'),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Color.fromARGB(255, 212, 212, 35),
+                    height: 15,
+                    width: 275,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Telaprincipal()),
+                      );
+                    },
+                    child: Text("Tela principal"),
+                  ),
+                ],
+              ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(color: Color.fromARGB(255, 212, 212, 35),
-              height: 15,
-              width: 250),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                ElevatedButton(onPressed: (){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Telaprincipal())); 
-                }, child: Text("Tela principal")),
-              ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-               ElevatedButton(onPressed: (){
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Telasecundaria())); 
-              }, child: Text("Frase 2")),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                ElevatedButton(onPressed: (){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Telaterciaria())); 
-                }, child: Text("Frase 3")),
-              ],
-          ),
-        ],)
+        ],
+      ),
     );
   }
 }
