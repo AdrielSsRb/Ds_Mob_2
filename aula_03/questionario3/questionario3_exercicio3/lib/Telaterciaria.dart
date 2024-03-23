@@ -12,58 +12,64 @@ class Telaterciaria extends StatefulWidget {
 }
 
 class TelaterciariaState extends State<Telaterciaria> {
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Frase 3"),
+        title: Text('Estatísticas de Joe Burrow'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('3 - tigres tristes',
-              style: TextStyle(fontSize: 20, fontFamily: 'ProtesRiot')),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(color: Color.fromARGB(255, 17, 198, 44),
-              height: 15,
-              width: 250),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                ElevatedButton(onPressed: (){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Telaprincipal())); 
-                }, child: Text("Tela principal")),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 20),
+            Text(
+              'Estatísticas de Joe Burrow',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Container(
+              color: Colors.blue,
+              height: 2,
+              width: 250,
+            ),
+            SizedBox(height: 20),
+            DataTable(
+              columnSpacing: 20,
+              columns: [
+                _buildDataColumn('Estatística'),
+                _buildDataColumn('Total'),
               ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-               ElevatedButton(onPressed: (){
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Telaprimaria())); 
-              }, child: Text("Frase 1")),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                ElevatedButton(onPressed: (){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Telasecundaria())); 
-                }, child: Text("Frase 2")),
+              rows: [
+                _buildDataRow('Jardas de Passe', '5,671'),
+                _buildDataRow('Touchdowns de Passe', '60'),
+                _buildDataRow('Precisão de Passe (%)', '76.3'),
+                _buildDataRow('Heisman Trophy', 'Vencedor em 2019'),
+                _buildDataRow('Draft da NFL', '1ª escolha geral em 2020'),
+                _buildDataRow('Temporada de Estreia na NFL', 'Promissora'),
               ],
-          ),
-        ],)
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  DataColumn _buildDataColumn(String label) {
+    return DataColumn(
+      label: Text(
+        label,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  DataRow _buildDataRow(String title, String total) {
+    return DataRow(
+      cells: [
+        DataCell(Text(title)),
+        DataCell(Text(total)),
+      ],
     );
   }
 }

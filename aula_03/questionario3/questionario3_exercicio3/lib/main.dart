@@ -101,7 +101,7 @@ class TelaprincipalState extends State<Telaprincipal> {
                               MaterialPageRoute(
                                   builder: (context) => Telasecundaria()));
                         },
-                        child: Text("FUTEBOL")),
+                        child: Text("Futebol")),
                   ],
                 ),
               ],
