@@ -2,9 +2,6 @@ O aplicativo vai ter 3 telas
 1º tela: na primeira tela dever a tela de login, vai ter 2 campotexto, o primeiro é o user e o segundo a senha.
 vai ter tbm 2 radio button, onde o usuario vai poder escolher entre admin, e cliente.
 e por fim vai ter dois botões na parte de baixo, um de entrar, que devera ser clicado após ser selecionado o radio button e preenchido o usuario e senha, e o outro botão vai ser o de limpar.
-*EXEMPLO DE LOGIN FOI FEITO NA *
-
-
 
 2º tela: A segunda tela vai ser a tela do ADMIN, nela podera ser alterado o valor e quantidade de cada produto, tera 4 produtos com seu titulo e imagem, onde todos eles a quantidade e o valor default é 0.
 também vai ter 2 botões, o primeiro se chama salvar ele salva todas as modificações feitas em todos os produtos, no caso o preço e a quantidade de produtos disponiveis e volta pra a primeira tela, a tela de login.

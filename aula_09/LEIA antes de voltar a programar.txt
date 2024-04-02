@@ -1,0 +1,8 @@
+LOGIN:
+A tela de login já foi criada e funciona perfeitamente;
+
+ADMIN:
+Agora estamos fazendo a tela de admin, ela foi pré modulada pelo chatgpt, vamos fazer todas as configurações necessarias e DEPOIS ir para tela de customer.
+
+CUSTOMER:
+A tela de Customer esta azul, apenas para simbolizar que acessamos ela,
