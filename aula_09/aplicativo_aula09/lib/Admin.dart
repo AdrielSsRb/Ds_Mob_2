@@ -1,77 +1,167 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AdminScreen extends StatefulWidget {
-  const AdminScreen({Key? key}) : super(key: key);
+class Telaproduto extends StatefulWidget {
+  const Telaproduto({Key? key}) : super(key: key);
 
   @override
-  State<AdminScreen> createState() => AdminScreenState();
+  _TelaprodutoState createState() => _TelaprodutoState();
 }
 
-class AdminScreenState extends State<AdminScreen> {
-  // Lista de produtos
-  List<Product> products = [
-    Product(title: 'Produto 1', quantity: 0, price: 0),
-    Product(title: 'Produto 2', quantity: 0, price: 0),
-    Product(title: 'Produto 3', quantity: 0, price: 0),
-    Product(title: 'Produto 4', quantity: 0, price: 0),
-  ];
+class _TelaprodutoState extends State<Telaproduto> {
+  List<Produto> produtos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProdutos(); // Carrega os produtos ao iniciar a tela
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Screen'),
+        title: Text("Cadastro de Produtos"),
       ),
       body: ListView.builder(
-        itemCount: products.length,
+        itemCount: produtos.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(products[index].title),
-            subtitle: Text('Quantidade: ${products[index].quantity}, Preço: ${products[index].price}'),
-            trailing: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                // Implemente aqui a lógica para editar o produto
-                // Por exemplo, abrir um diálogo para editar preço e quantidade
-              },
-            ),
+          return ProdutoCard(
+            produto: produtos[index],
+            onEditPressed: () => _showEditDialog(context, index),
           );
         },
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
+    );
+  }
+
+  void _loadProdutos() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      produtos = [
+        Produto(
+          "Videogame",
+          "https://m.media-amazon.com/images/I/71YBU9c7qlL._AC_SX679_.jpg",
+          prefs.getInt('videogame_quantity') ?? 10,
+          prefs.getDouble('videogame_price') ?? 5000,
+        ),
+        Produto(
+          "Telefone",
+          "https://m.media-amazon.com/images/I/81YSmKnlijL.__AC_SY445_SX342_QL70_ML2_.jpg",
+          prefs.getInt('telefone_quantity') ?? 10,
+          prefs.getDouble('telefone_price') ?? 8000,
+        ),
+        Produto(
+          "TV",
+          "https://m.media-amazon.com/images/I/61oiiGulDPL.__AC_SX300_SY300_QL70_ML2_.jpg",
+          prefs.getInt('tv_quantity') ?? 10,
+          prefs.getDouble('tv_price') ?? 6500,
+        ),
+      ];
+    });
+  }
+
+  void _showEditDialog(BuildContext context, int index) {
+    Produto produto = produtos[index];
+    TextEditingController priceController = TextEditingController(text: produto.price.toString());
+    TextEditingController quantityController = TextEditingController(text: produto.quantity.toString());
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Editar Produto'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: priceController,
+                decoration: InputDecoration(labelText: 'Novo Preço'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: quantityController,
+                decoration: InputDecoration(labelText: 'Nova Quantidade'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
               onPressed: () {
-                // Implemente aqui a lógica para salvar as alterações feitas nos produtos
-                Navigator.pop(context); // Volta para a tela de login
+                Navigator.pop(context);
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                double newPrice = double.tryParse(priceController.text) ?? produto.price;
+                int newQuantity = int.tryParse(quantityController.text) ?? produto.quantity;
+
+                setState(() {
+                  produto.price = newPrice;
+                  produto.quantity = newQuantity;
+                });
+
+                // Salvar as modificações
+                _saveProduto(produto);
+
+                Navigator.pop(context);
               },
               child: Text('Salvar'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                // Implemente aqui a lógica para limpar os valores dos produtos
-                for (var product in products) {
-                  product.quantity = 0;
-                  product.price = 0;
-                }
-                setState(() {}); // Atualiza a interface
-              },
-              child: Text('Limpar'),
-            ),
           ],
+        );
+      },
+    );
+  }
+
+  void _saveProduto(Produto produto) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('${produto.productName.toLowerCase()}_quantity', produto.quantity);
+    prefs.setDouble('${produto.productName.toLowerCase()}_price', produto.price);
+  }
+}
+
+class Produto {
+  final String productName;
+  final String imageUrl;
+  int quantity;
+  double price;
+
+  Produto(this.productName, this.imageUrl, this.quantity, this.price);
+}
+
+class ProdutoCard extends StatelessWidget {
+  final Produto produto;
+  final VoidCallback onEditPressed;
+
+  ProdutoCard({required this.produto, required this.onEditPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(10),
+      child: ListTile(
+        leading: Image.network(
+          produto.imageUrl,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+        title: Text(produto.productName),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Quantidade: ${produto.quantity}"),
+            Text("Preço: R\$ ${produto.price}"),
+          ],
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: onEditPressed,
         ),
       ),
     );
   }
-}
-
-// Classe de modelo para representar um produto
-class Product {
-  final String title;
-  int quantity;
-  double price;
-
-  Product({required this.title, required this.quantity, required this.price});
 }
