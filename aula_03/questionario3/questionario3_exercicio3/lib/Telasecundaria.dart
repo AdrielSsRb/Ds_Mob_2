@@ -35,7 +35,7 @@ class TelasecundariaState extends State<Telasecundaria> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      color: Colors.yellow,
+                      color: Colors.red,
                       height: 15,
                       width: 250,
                     ),

@@ -30,8 +30,16 @@ class TelaterciariaState extends State<Telaterciaria> {
             SizedBox(height: 20),
             Container(
               color: Colors.blue,
-              height: 2,
+              height: 15,
               width: 250,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.network(
+                      'https://sportbuzz.uol.com.br/media/uploads/2023/10/joe-burrow-lesao-recuperacao.jpg',
+                      height: 180,)
+                  ],
             ),
             SizedBox(height: 20),
             DataTable(
