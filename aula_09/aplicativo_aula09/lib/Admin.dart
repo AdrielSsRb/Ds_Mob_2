@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aplicativo_aula09/Customer.dart';
+
 
 class Telaproduto extends StatefulWidget {
   const Telaproduto({Key? key}) : super(key: key);
@@ -61,12 +63,12 @@ class _TelaprodutoState extends State<Telaproduto> {
     });
   }
 
-  void _showEditDialog(BuildContext context, int index) {
+  void _showEditDialog(BuildContext context, int index) async {
     Produto produto = produtos[index];
     TextEditingController priceController = TextEditingController(text: produto.price.toString());
     TextEditingController quantityController = TextEditingController(text: produto.quantity.toString());
 
-    showDialog(
+    final result = await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -89,7 +91,7 @@ class _TelaprodutoState extends State<Telaproduto> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, false); // Retorna false se o diálogo for fechado sem salvar
               },
               child: Text('Cancelar'),
             ),
@@ -106,7 +108,7 @@ class _TelaprodutoState extends State<Telaproduto> {
                 // Salvar as modificações
                 _saveProduto(produto);
 
-                Navigator.pop(context);
+                Navigator.pop(context, true); // Retorna true se as modificações forem salvas
               },
               child: Text('Salvar'),
             ),
@@ -114,6 +116,11 @@ class _TelaprodutoState extends State<Telaproduto> {
         );
       },
     );
+
+    // Se as modificações foram salvas, atualiza a lista de produtos
+    if (result == true) {
+      setState(() {});
+    }
   }
 
   void _saveProduto(Produto produto) async {
