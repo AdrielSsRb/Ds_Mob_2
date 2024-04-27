@@ -31,24 +31,31 @@ class _Navigator_screenState extends State<Navigator_screen> {
   // Cria lista de widgets 
   static const List<Widget> _widgetOptions = <Widget>[   
   //Nome das Classes das telas
-  TelaHome(), 
-  CheckBoxExample(),
-  RadioButton(),
-  TelaSettings(),   
+  TelaIndustria(), 
+  TelaEconomia(),
+  TelaSaude(),
+  TelaAgricultura(),   
     
   ];
   void onItemTapped(int index) {
     setState(() {
       selectIndex = index;
-      
+
       
     });
   }
+
   @override
   Widget build(BuildContext context) {
+    Color corTela;
+    if (selectIndex == 0){
+      corTela = Colors.grey;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Aplicativo aula 04"),
+        
+        title: Text("Aplicativo aula  "),
+        //backgroundColor: corTela,
       ),
       body:  Center(
         child: _widgetOptions.elementAt(selectIndex),
@@ -56,24 +63,25 @@ class _Navigator_screenState extends State<Navigator_screen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.red,
+            icon: Icon(Icons.business),
+            label: 'Industria',
+            backgroundColor: Colors.grey,
+            
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.attach_money),
+            label: 'Economia',
             backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-            backgroundColor: Colors.orange,
+            icon: Icon(Icons.monitor_heart),
+            label: 'Saude',
+            backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: Colors.purple,
+            icon: Icon(Icons.eco_sharp),
+            label: 'Agricultura',
+            backgroundColor: Colors.green,
           ),
         ],
         currentIndex: selectIndex,

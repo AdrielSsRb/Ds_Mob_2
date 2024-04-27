@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TelaSettings extends StatelessWidget {
-  const TelaSettings({super.key});
+class TelaAgricultura extends StatelessWidget {
+  const TelaAgricultura({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class TelaSettings extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Settings",
+              Text("Tela Agricultura",
             style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold

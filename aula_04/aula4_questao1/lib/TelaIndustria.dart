@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class TelaHome extends StatelessWidget {
-  const TelaHome({super.key});
+class TelaIndustria extends StatelessWidget {
+  const TelaIndustria({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class TelaHome extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Mobile",
+              Text("Tela Industria",
             style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold
