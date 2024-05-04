@@ -1,3 +1,9 @@
 Coisas que podemos baixar:
 
 	https://pub.dev/     // Serve para baixar pacotes e metodos
+
+
+
+Atividades pendentes
+	*Atividade aula 04  feito ex1 e ex2
+		*pendente ex3 e ex4
